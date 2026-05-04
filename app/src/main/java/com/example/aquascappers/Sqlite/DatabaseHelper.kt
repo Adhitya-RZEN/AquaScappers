@@ -8,11 +8,15 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/**
+ * Helper class untuk mengelola database SQLite, termasuk pembuatan tabel, pembaruan skema, 
+ * serta operasi CRUD (Create, Read, Delete) untuk data log tangki.
+ */
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
         private const val DATABASE_NAME = "AquaStock.db"
-        private const val DATABASE_VERSION = 3 // Versi dinaikkan
+        private const val DATABASE_VERSION = 3
         private const val TABLE_NAME = "tank_logs"
         private const val COLUMN_ID = "id"
         private const val COLUMN_TANK_ID = "tank_id"
@@ -49,7 +53,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return sdf.format(Date())
     }
 
-    // CREATE (Append-Only Logic)
     fun insertLog(log: TankLog): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -62,11 +65,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(COLUMN_CREATED_AT, getCurrentDateTime())
         }
 
-        // Simpan log baru
         val insertedId = db.insert(TABLE_NAME, null, values)
 
-        // Jika ini tangki baru (tankId == 0), jadikan ID row-nya sebagai tankId
-        // Jika ini update (tankId > 0), gunakan tankId dari tangki lama
         val finalTankId = if (log.tankId == 0) insertedId.toInt() else log.tankId
 
         val updateValues = ContentValues().apply { put(COLUMN_TANK_ID, finalTankId) }
@@ -76,10 +76,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return insertedId
     }
 
-    // READ (HANYA MENGAMBIL LOG TERBARU UNTUK SETIAP TANGKI)
     fun getAllLatestLogs(): ArrayList<TankLog> {
         val logList = ArrayList<TankLog>()
-        // Optimisasi: Menggunakan MAX(id) yang dikelompokkan berdasarkan tank_id
         val selectQuery = "SELECT * FROM $TABLE_NAME WHERE $COLUMN_ID IN (SELECT MAX($COLUMN_ID) FROM $TABLE_NAME GROUP BY $COLUMN_TANK_ID) ORDER BY $COLUMN_ID DESC"
         val db = this.readableDatabase
         val cursor = db.rawQuery(selectQuery, null)
@@ -103,11 +101,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return logList
     }
 
-    // READ HISTORY (OPTIMISASI: Dibatasi maksimal 20 data historis terakhir)
     fun getTankHistory(tankId: Int, limit: Int = 20): ArrayList<TankLog> {
         val historyList = ArrayList<TankLog>()
         val db = this.readableDatabase
-        // Ambil data yang tank_id nya sama, urutkan dari terbaru, batasi (LIMIT)
         val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_TANK_ID = ? ORDER BY $COLUMN_ID DESC LIMIT ?", arrayOf(tankId.toString(), limit.toString()))
 
         if (cursor.moveToFirst()) {
@@ -130,7 +126,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return historyList
     }
 
-    // DELETE: Menghapus seluruh riwayat tangki tersebut
     fun deleteTank(tankId: Int): Int {
         val db = this.writableDatabase
         val success = db.delete(TABLE_NAME, "$COLUMN_TANK_ID=?", arrayOf(tankId.toString()))

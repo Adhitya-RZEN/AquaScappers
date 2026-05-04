@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aquascappers.R
 import android.view.ContextThemeWrapper
 
+/**
+ * Adapter untuk menampilkan daftar log tangki dalam RecyclerView, termasuk menu popup untuk opsi update dan delete.
+ */
 class LogAdapter(
     private val logList: ArrayList<TankLog>,
     private val onUpdateClick: (TankLog) -> Unit,
@@ -33,10 +36,7 @@ class LogAdapter(
         holder.tvDesc.text = currentLog.description
 
         holder.ivMore.setOnClickListener { view ->
-            // 1. Bungkus context dengan tema "GacorPopupMenu" kita
             val wrapper = ContextThemeWrapper(view.context, R.style.GacorPopupMenu)
-
-            // 2. Gunakan wrapper tersebut ke dalam PopupMenu (bukan view.context lagi)
             val popup = PopupMenu(wrapper, view)
 
             popup.menu.add("Update")

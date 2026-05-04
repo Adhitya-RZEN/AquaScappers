@@ -12,7 +12,7 @@
         <item name="android:popupBackground">@drawable/rounded_input</item>
         <!-- Ubah warna teks menjadi putih -->
         <item name="android:textColor">@color/text_primary</item>
-        <!-- Opsional: Tambahkan efek spasi teks atau font agar lebih futuristik -->
+        <!-- Tambahkan efek spasi teks atau font -->
         <item name="android:fontFamily">@font/bruno_ace</item>
         <item name="android:textSize">14sp</item>
     </style>

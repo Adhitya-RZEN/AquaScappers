@@ -12,6 +12,9 @@ import com.example.aquascappers.Sqlite.LogAdapter
 import com.example.aquascappers.Sqlite.TankLog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+/**
+ * Activity utama untuk menampilkan daftar log tangki terbaru dan mengelola navigasi tambah/hapus.
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var rvLogs: RecyclerView
@@ -39,12 +42,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadData() {
-        val logList = dbHelper.getAllLatestLogs() // Menggunakan metode baru
+        val logList = dbHelper.getAllLatestLogs()
         logAdapter = LogAdapter(
             logList,
             onUpdateClick = { log ->
                 val intent = Intent(this, AddLogActivity::class.java)
-                intent.putExtra("TANK_ID", log.tankId) // Kirim TANK_ID, bukan ID biasa
+                intent.putExtra("TANK_ID", log.tankId)
                 intent.putExtra("LOG_TITLE", log.title)
                 startActivity(intent)
             },
@@ -61,6 +64,7 @@ class MainActivity : AppCompatActivity() {
             .setMessage("Apakah Anda yakin ingin menghapus data ini?")
             .setPositiveButton("Hapus") { _, _ ->
                 val result = dbHelper.deleteTank(log.tankId)
+                loadData()
             }
             .setNegativeButton("Batal", null)
             .show()

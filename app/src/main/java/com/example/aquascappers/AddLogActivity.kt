@@ -14,10 +14,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.aquascappers.Sqlite.DatabaseHelper
 import com.example.aquascappers.Sqlite.TankLog
 
+/**
+ * Activity untuk menambah log baru atau memperbarui log pada tangki yang sudah ada, 
+ * dilengkapi dengan tampilan riwayat log sebelumnya.
+ */
 class AddLogActivity : AppCompatActivity() {
 
     private lateinit var dbHelper: DatabaseHelper
-    private var currentTankId: Int = 0 // 0 berarti Tangki Baru
+    private var currentTankId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,23 +40,19 @@ class AddLogActivity : AppCompatActivity() {
         val tvHistoryHeader = findViewById<TextView>(R.id.tvHistoryHeader)
         val rvHistory = findViewById<RecyclerView>(R.id.rvHistory)
 
-        // Cek apakah ini mode Edit (Update)
         if (intent.hasExtra("TANK_ID")) {
             currentTankId = intent.getIntExtra("TANK_ID", 0)
             etTitle.setText(intent.getStringExtra("LOG_TITLE"))
 
-            // Nonaktifkan edit nama jika ini update, karena nama tangki tetap
             etTitle.isEnabled = false
             etTitle.alpha = 0.5f
 
             btnSave.text = "TAMBAH LOG BARU"
 
-            // Tampilkan Historis
             tvHistoryHeader.visibility = View.VISIBLE
             rvHistory.visibility = View.VISIBLE
             rvHistory.layoutManager = LinearLayoutManager(this)
 
-            // Ambil data historis yang sudah di-limit agar ringan
             val historyLogs = dbHelper.getTankHistory(currentTankId)
             rvHistory.adapter = HistoryAdapter(historyLogs)
         }
@@ -70,9 +70,8 @@ class AddLogActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // SIMPAN DATA SEBAGAI INSERT BARU
             val newLog = TankLog(
-                tankId = currentTankId, // Akan 0 jika baru, atau >0 jika update
+                tankId = currentTankId,
                 title = title,
                 description = desc,
                 phLevel = ph,
@@ -91,7 +90,6 @@ class AddLogActivity : AppCompatActivity() {
         }
     }
 
-    // Adapter Historis Internal (Sederhana & Cepat)
     inner class HistoryAdapter(private val historyList: ArrayList<TankLog>) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val tvDate: TextView = itemView.findViewById(R.id.tvHistDate)

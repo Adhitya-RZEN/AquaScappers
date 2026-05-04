@@ -7,6 +7,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+/**
+ * Activity kalkulator untuk menghitung volume air akuarium berdasarkan dimensi panjang, lebar, dan tinggi.
+ */
 class CalculatorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +36,8 @@ class CalculatorActivity : AppCompatActivity() {
             val width = widthStr.toDouble()
             val height = heightStr.toDouble()
 
-            // Rumus volume: (P x L x T) / 1000 = Liter
             val volumeLiter = (length * width * height) / 1000
 
-            // Asumsi kasar volume bersih: dipotong 15% untuk substrat dan hardscape
             val netVolume = volumeLiter * 0.85
 
             tvResult.text = "Volume Kotor: ${"%.2f".format(volumeLiter)} Liter\n\nEstimasi Volume Bersih (Air Saja): ${"%.2f".format(netVolume)} Liter"

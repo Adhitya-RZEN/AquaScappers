@@ -3,7 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bg_dark">#0B131E</color> <!-- Biru Laut Sangat Gelap -->
-    <color name="glass_card">#1AFFFFFF</color> <!-- Putih Transparan 10% (Glassmorphism) -->
+    <color name="glass_card">#1AFFFFFF</color> <!-- Putih Transparan 10% -->
     <color name="glass_stroke">#33FFFFFF</color> <!-- Border Kaca -->
     <color name="accent_neon">#00FFA3</color> <!-- Hijau Neon / Cyan -->
     <color name="text_primary">#FFFFFF</color>
