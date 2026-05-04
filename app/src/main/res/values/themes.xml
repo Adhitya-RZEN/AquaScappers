@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AquaScappers" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.AquaScappers" parent="Base.Theme.AquaScappers" />
+
+    <style name="GacorPopupMenu" parent="ThemeOverlay.AppCompat.Dark">
+        <!-- Pakai background melengkung kaca yang sudah kita buat -->
+        <item name="android:popupBackground">@drawable/rounded_input</item>
+        <!-- Ubah warna teks menjadi putih -->
+        <item name="android:textColor">@color/text_primary</item>
+        <!-- Opsional: Tambahkan efek spasi teks atau font agar lebih futuristik -->
+        <item name="android:fontFamily">@font/bruno_ace</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

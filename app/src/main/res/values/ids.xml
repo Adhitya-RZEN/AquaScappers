@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnMenuDatabase" type="id" />
+    <item name="btnMenuLogs" type="id" />
+    <item name="btnMenuCalculator" type="id" />
+    <item name="btnMenuScheduler" type="id" />
+</resources>
