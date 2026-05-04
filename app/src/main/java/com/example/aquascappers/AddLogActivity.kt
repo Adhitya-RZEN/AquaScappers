@@ -15,7 +15,7 @@ import com.example.aquascappers.Sqlite.DatabaseHelper
 import com.example.aquascappers.Sqlite.TankLog
 
 /**
- * Activity untuk menambah log baru atau memperbarui log pada tangki yang sudah ada, 
+ * Activity untuk menambah log baru atau memperbarui log pada tangki yang sudah ada,
  * dilengkapi dengan tampilan riwayat log sebelumnya.
  */
 class AddLogActivity : AppCompatActivity() {
